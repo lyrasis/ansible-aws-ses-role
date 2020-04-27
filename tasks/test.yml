@@ -1,0 +1,7 @@
+---
+
+# NOTE: the ansible mail module does not seem to make use of the SES configuration
+- name: test SES configuration
+  shell: |
+    echo "{{ ansible_hostname }} has been successfully configured to send mail via AWS SES" |
+    mail -s "Test email from: {{ ansible_hostname }}" -aFrom:"{{ aws_ses_from_address }}" "{{ aws_ses_to_address }}"

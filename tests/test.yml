@@ -1,0 +1,14 @@
+---
+
+- hosts:
+  become: true
+
+  tasks:
+  - name: run the aws ses role
+    include_role:
+      name: aws-ses
+      # tasks_from: test
+    vars:
+      aws_ses_to_address: "test_to@test.org"
+      aws_ses_from_address: "test_from@test.org"
+      aws_ses_test: true

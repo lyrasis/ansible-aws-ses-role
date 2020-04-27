@@ -1,0 +1,17 @@
+---
+- name: check for sendmail
+  command: "apt list --installed sendmail"
+  register: sendmail_installed
+  changed_when: false
+
+- name: make sure sendmail is not installed
+  fail:
+    msg: "sendmail is installed on this server. please uninstall it before proceeding"
+  when: "'sendmail' in sendmail_installed.stdout"
+
+- name: make sure prereqs are installed
+  apt:
+    pkg:
+    - postfix
+    - libsasl2-modules
+    state: present

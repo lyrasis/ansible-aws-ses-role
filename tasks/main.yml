@@ -1,0 +1,20 @@
+---
+
+- name: make sure to become true
+  import_tasks: ensure_become.yml
+
+- import_tasks: install.yml
+  tags:
+    - aws-ses
+    - aws-ses-install
+
+- import_tasks: configure.yml
+  tags:
+  - aws-ses
+  - aws-ses-configure
+
+- import_tasks: test.yml
+  when: aws_ses_test
+  tags:
+  - aws-ses
+  - aws-ses-test

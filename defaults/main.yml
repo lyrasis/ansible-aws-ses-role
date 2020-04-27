@@ -1,0 +1,33 @@
+---
+
+# AWS region from which you wish to send mail
+# NOTE: this role does not currently support configuring a server to send mail from multiple regions
+aws_ses_region:         "us-west-2"
+
+# port to address on the SMTP endpoint. this should probably not change unless the AWS SES documention changes
+aws_ses_port:           587
+
+# your Amazon SES SMTP credentials
+# see: https://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-credentials.html
+aws_ses_smtp_username:  ""
+aws_ses_smtp_password:  ""
+
+# address to which to send mail (just used for testing)
+aws_ses_to_address:     "REPLACE@THIS.com"
+# address fron which to send mail (just used for testing)
+aws_ses_from_address:   "REPLACE@THIS.com"
+
+# whether or not to send a test email after configuration
+aws_ses_test:           false
+
+# settings for integrating SES with Postfix on Ubuntu
+# see: https://docs.aws.amazon.com/ses/latest/DeveloperGuide/postfix.html
+aws_ses_settings:
+  relayhost: "[email-smtp.{{ aws_ses_region }}.amazonaws.com]:{{ aws_ses_port }}"
+  smtp_sasl_auth_enable: "yes"
+  smtp_sasl_security_options: "noanonymous"
+  smtp_sasl_password_maps: "hash:/etc/postfix/sasl_passwd"
+  smtp_use_tls: "yes"
+  smtp_tls_security_level: "encrypt"
+  smtp_tls_note_starttls_offer: "yes"
+  smtp_tls_CAfile: "/etc/ssl/certs/ca-certificates.crt"

@@ -1,0 +1,8 @@
+---
+
+- name: reload postfix
+  service:
+    name: postfix
+    state: reloaded
+  listen: "restart postfix"
+  become: true

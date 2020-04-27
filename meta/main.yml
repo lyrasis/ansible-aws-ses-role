@@ -1,0 +1,20 @@
+galaxy_info:
+  author: Drew Heles
+  description: Ansible Role that configures a server to use the AWS Simple Email Service (SES).
+  company: LYRASIS
+
+  license: CC0
+
+  min_ansible_version: 2.7
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+
+  galaxy_tags:
+  - aws
+  - ses
+  - email
+
+dependencies: []

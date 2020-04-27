@@ -1,0 +1,34 @@
+---
+
+- name: check current postfix configuration
+  command: postconf
+  register: postconf_result
+  changed_when: false
+
+- name: configure postfix
+  command: "postconf -e {{ item.key }}={{ item.value }}"
+  notify: "restart postfix"
+  when: "'{{ item.key }} = {{ item.value }}' not in postconf_result.stdout"
+  loop: "{{ aws_ses_settings | dict2items }}"
+
+- name: template SMTP credentials
+  template:
+    src:  sasl_passwd.j2
+    dest: /etc/postfix/sasl_passwd
+    owner: root
+    group: root
+    mode: 0600
+  notify: "restart postfix"
+  register: credentials
+
+- name: create a hashmap database of SMTP credentials
+  command: postmap hash:/etc/postfix/sasl_passwd
+  notify: "restart postfix"
+  when: credentials.changed
+
+- name: secure the hashmap database
+  file:
+    path: /etc/postfix/sasl_passwd.db
+    owner: root
+    group: root
+    mode: 0600
