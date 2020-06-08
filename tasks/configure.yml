@@ -4,11 +4,12 @@
   command: postconf
   register: postconf_result
   changed_when: false
+  check_mode: no
 
 - name: configure postfix
   command: "postconf -e {{ item.key }}={{ item.value }}"
   notify: "restart postfix"
-  when: "'{{ item.key }} = {{ item.value }}' not in postconf_result.stdout"
+  when: "'item.key = item.value' not in postconf_result.stdout"
   loop: "{{ aws_ses_settings | dict2items }}"
 
 - name: template SMTP credentials
