@@ -3,6 +3,7 @@
   command: "apt list --installed sendmail"
   register: sendmail_installed
   changed_when: false
+  check_mode: no
 
 - name: make sure sendmail is not installed
   fail:

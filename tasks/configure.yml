@@ -4,6 +4,7 @@
   command: postconf
   register: postconf_result
   changed_when: false
+  check_mode: no
 
 - name: configure postfix
   command: "postconf -e {{ item.key }}={{ item.value }}"
